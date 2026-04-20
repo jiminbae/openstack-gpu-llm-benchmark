@@ -1,0 +1,56 @@
+base_model: /workspace/model
+tokenizer_config: /workspace/model
+special_tokens:
+  pad_token: "<|end_of_text|>"
+dataset_prepared_path: /workspace/cache/48gb_dual_cache
+output_dir: /workspace/final-result/48gb_dual/out-expansive-48gb-dual-v1
+
+adapter: qlora
+load_in_4bit: true
+load_in_8bit: false
+
+# Hardware & Kernel Settings
+bf16: true
+tf32: true
+flash_attention: true
+lora_qkv_kernel: false
+lora_o_kernel: false
+lora_mlp_kernel: false
+lora_embedding_kernel: false
+
+# LoRA Settings
+lora_r: 64
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_linear: true
+
+# Sequence & Batch Settings
+sequence_len: 20480
+pad_to_sequence_len: true
+sample_packing: false
+micro_batch_size: 1
+# 2 GPU × micro_batch 1 × grad_accum 8 = effective batch 16
+# (48gb_single.yml의 1 × 16 = 16과 동일 → 공정 비교용)
+gradient_accumulation_steps: 8
+eval_batch_size: 1
+
+# Training Settings
+max_steps: 20
+learning_rate: 0.0002
+optimizer: paged_adamw_32bit
+train_on_inputs: false
+
+# Dataset Settings
+datasets:
+  - path: synthetic
+    type: _synthetic
+    length: 200
+    sequence_length: 20480
+
+# Checkpointing
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: true
+
+# Multi-GPU (DDP) 설정
+ddp_find_unused_parameters: false

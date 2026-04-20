@@ -1,0 +1,75 @@
+base_model: /workspace/model
+tokenizer_config: /workspace/model
+special_tokens:
+  pad_token: "<|end_of_text|>"
+dataset_prepared_path: /workspace/cache/48gb_fsdp_cache
+output_dir: /workspace/final-result/48gb_fsdp/out-expansive-48gb-fsdp-v1
+
+adapter: qlora
+load_in_4bit: true
+load_in_8bit: false
+
+# Hardware & Kernel Settings
+bf16: true
+tf32: true
+flash_attention: true
+lora_qkv_kernel: false
+lora_o_kernel: false
+lora_mlp_kernel: false
+lora_embedding_kernel: false
+
+# LoRA Settings
+lora_r: 64
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target_linear: true
+
+# Sequence & Batch Settings
+sequence_len: 20480
+pad_to_sequence_len: true
+sample_packing: false
+micro_batch_size: 1
+gradient_accumulation_steps: 8
+eval_batch_size: 1
+
+# Training Settings
+max_steps: 20
+learning_rate: 0.0002
+# FSDP와 bitsandbytes paged 옵티마이저는 궁합이 나쁨.
+# adamw_torch_fused가 FSDP2 권장 조합.
+optimizer: adamw_torch_fused
+train_on_inputs: false
+
+# Dataset Settings
+datasets:
+  - path: synthetic
+    type: _synthetic
+    length: 200
+    sequence_length: 20480
+
+# ── Checkpointing ────────────────────────────────────────
+# ★ FSDP 사용 시 HF 쪽 gradient_checkpointing은 반드시 끈다
+#   (활성화하면 backward에서 redundant AllGather 발생)
+gradient_checkpointing: false
+
+# ── FSDP2 설정 ────────────────────────────────────────────
+fsdp_version: 2
+fsdp_config:
+  # 파라미터/그래디언트/옵티마이저 상태 풀 샤딩 (= FULL_SHARD)
+  reshard_after_forward: true
+
+  # 8B + QLoRA는 48GB x 2에서 충분하므로 CPU offload 불필요
+  offload_params: false
+
+  # ★ FSDP 네이티브 activation checkpointing 사용 (중복 AllGather 제거)
+  activation_checkpointing: true
+
+  # ★ 로컬 디스크에서 8B 모델을 병렬 로드 — rank 0 직렬 broadcast 회피
+  cpu_ram_efficient_loading: false
+
+  # Llama decoder block 단위로 래핑
+  auto_wrap_policy: TRANSFORMER_BASED_WRAP
+  transformer_layer_cls_to_wrap: LlamaDecoderLayer
+
+  # 저장 시 전체 state_dict로 복원
+  state_dict_type: FULL_STATE_DICT
