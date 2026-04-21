@@ -35,23 +35,23 @@
 
 ```
 capstone-project1/
-├── benchmarks/             # 벤치마크 자동화 도구 (메인)
-│   ├── run.sh              # 메인 실행 스크립트
-│   ├── Dockerfile          # 학습 환경 정의
-│   ├── entrypoint.sh       # 컨테이너 내 학습 실행
-│   ├── 48gb_single.yml     # 단일 48GB / MIG용 Axolotl 설정
-│   ├── 96gb_single.yml     # 단일 96GB용 Axolotl 설정
-│   ├── 48gb_ddp.yml        # 2x 48GB DDP용 Axolotl 설정
-│   ├── 48gb_fsdp.yml       # 2x 48GB FSDP2용 Axolotl 설정
-│   └── models/             # 모델 파일 위치 (로컬 배치 필요)
-├── meeting-notes/          # 회의록
-├── presentations/          # 발표 자료
+├── benchmarks/benchmark-tool     # 벤치마크 자동화 도구 (메인)
+│   ├── run.sh                    # 메인 실행 스크립트
+│   ├── Dockerfile                # 학습 환경 정의
+│   ├── entrypoint.sh             # 컨테이너 내 학습 실행
+│   ├── 48gb_single.yml           # 단일 48GB / MIG용 Axolotl 설정
+│   ├── 96gb_single.yml           # 단일 96GB용 Axolotl 설정
+│   ├── 48gb_ddp.yml              # 2x 48GB DDP용 Axolotl 설정
+│   ├── 48gb_fsdp.yml             # 2x 48GB FSDP2용 Axolotl 설정
+│   └── models/                   # 모델 파일 위치 (로컬 배치 필요)
+├── meeting-notes/                # 회의록
+├── presentations/                # 발표 자료
 └── README.md
 ```
 
 ### 벤치마크 도구
 
-[![benchmarks](https://img.shields.io/badge/📁%20benchmarks-blue)](./benchmarks)
+[![benchmarks](https://img.shields.io/badge/📁%20benchmarks-blue)](./benchmarks/benchmark-tool)
 
 ### 인프라 환경
 
@@ -91,23 +91,23 @@ Benchmark model: **LLaMA 3.1 8B QLoRA** (Docker-automated with Axolotl)
 
 ```
 capstone-project1/
-├── benchmarks/             # Benchmark automation tool (main)
-│   ├── run.sh              # Main execution script
-│   ├── Dockerfile          # Training environment definition
-│   ├── entrypoint.sh       # In-container training runner
-│   ├── 48gb_single.yml     # Axolotl config for single 48GB / MIG
-│   ├── 96gb_single.yml     # Axolotl config for single 96GB
-│   ├── 48gb_ddp.yml        # Axolotl config for 2x 48GB DDP
-│   ├── 48gb_fsdp.yml       # Axolotl config for 2x 48GB FSDP2
-│   └── models/             # Model file location (must be placed locally)
-├── meeting-notes/          # Meeting notes
-├── presentations/          # Presentation slides
+├── benchmarks/benchmark-tool     # Benchmark automation tool (main)
+│   ├── run.sh                    # Main execution script
+│   ├── Dockerfile                # Training environment definition
+│   ├── entrypoint.sh             # In-container training runner
+│   ├── 48gb_single.yml           # Axolotl config for single 48GB / MIG
+│   ├── 96gb_single.yml           # Axolotl config for single 96GB
+│   ├── 48gb_ddp.yml              # Axolotl config for 2x 48GB DDP
+│   ├── 48gb_fsdp.yml             # Axolotl config for 2x 48GB FSDP2
+│   └── models/                   # Model file location (must be placed locally)
+├── meeting-notes/                # Meeting notes
+├── presentations/                # Presentation slides
 └── README.md
 ```
 
 ### Benchmark Tool
 
-[![benchmarks](https://img.shields.io/badge/📁%20benchmarks-blue)](./benchmarks)
+[![benchmarks](https://img.shields.io/badge/📁%20benchmarks-blue)](./benchmarks/benchmark-tool)
 
 ### Infrastructure
 
