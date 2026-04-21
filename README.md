@@ -6,6 +6,12 @@
 >
 > GPU Performance Analysis for LLM Workloads in OpenStack Environments: MIG vs. Passthrough
 
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.11.0-orange)
+![CUDA](https://img.shields.io/badge/CUDA-13.0.3-green)
+![Axolotl](https://img.shields.io/badge/Axolotl-0.16.1-purple)
+![Docker](https://img.shields.io/badge/Docker-required-blue)
+
 ---
 
 **[한국어](#한국어) | [English](#english)**
