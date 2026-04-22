@@ -1,0 +1,333 @@
+==================================================
+  벤치마크 타입 : single96 (단일 96GB GPU)
+  YAML         : 96gb_single.yml
+  프로세스 수  : 1
+  실행 모드    : single
+  타임스탬프   : 20260421-104246
+  출력 경로    : /home/ubuntu/automated_benchmark/output/single96/20260421-104246
+==================================================
+
+[사전점검] 모델 경로: /home/ubuntu/automated_benchmark/models/Llama-3.1-8B
+  → 확인 완료
+
+[사전점검] GPU 디바이스 설정
+  → 사용 디바이스: device=0
+
+==================================================
+  [1/2] Docker 이미지 빌드: axolotl-benchmark
+==================================================
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.72kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/nvidia/cuda:13.0.3-cudnn-devel-ubuntu24.04
+#2 DONE 1.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [ 1/18] FROM docker.io/nvidia/cuda:13.0.3-cudnn-devel-ubuntu24.04@sha256:0230b7f243483cb15969fa3cc724a9459599604427052fc2a0d4291c7c0647dd
+#4 resolve docker.io/nvidia/cuda:13.0.3-cudnn-devel-ubuntu24.04@sha256:0230b7f243483cb15969fa3cc724a9459599604427052fc2a0d4291c7c0647dd 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 170B done
+#5 DONE 0.0s
+
+#6 [ 6/18] RUN python -m venv /axo-venv
+#6 CACHED
+
+#7 [ 2/18] RUN apt-get update && apt-get install -y     python3.12 python3.12-dev python3.12-venv     python3-pip git wget curl build-essential     libssl-dev libffi-dev ninja-build     && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [11/18] RUN pip install xformers==0.0.35 --index-url https://download.pytorch.org/whl/cu130
+#8 CACHED
+
+#9 [12/18] RUN pip install     "lm_eval[hf]==0.4.11"     evaluate==0.4.1     rouge_score==0.1.2     sacrebleu==2.6.0     scipy==1.17.1     wandb     tensorboard     optimum     torchao==0.17.0     hf_transfer
+#9 CACHED
+
+#10 [ 7/18] RUN pip install --upgrade pip packaging==26.0 setuptools wheel ninja
+#10 CACHED
+
+#11 [13/18] COPY 48gb_single.yml /workspace/48gb_single.yml
+#11 CACHED
+
+#12 [ 8/18] RUN pip install     torch==2.11.0+cu130     torchvision==0.26.0+cu130     torchaudio==2.11.0+cu130     --index-url https://download.pytorch.org/whl/cu130
+#12 CACHED
+
+#13 [ 9/18] RUN pip install     "https://github.com/mjun0812/flash-attention-prebuild-wheels/releases/download/v0.9.4/flash_attn-2.8.3+cu130torch2.11-cp312-cp312-linux_x86_64.whl"
+#13 CACHED
+
+#14 [10/18] RUN pip install --no-build-isolation axolotl==0.16.1
+#14 CACHED
+
+#15 [15/18] COPY 48gb_ddp.yml    /workspace/48gb_ddp.yml
+#15 CACHED
+
+#16 [16/18] COPY 48gb_fsdp.yml   /workspace/48gb_fsdp.yml
+#16 CACHED
+
+#17 [ 3/18] RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1 &&     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
+#17 CACHED
+
+#18 [ 4/18] WORKDIR /workspace
+#18 CACHED
+
+#19 [ 5/18] RUN mkdir -p /workspace/cache /workspace/result /workspace/final-result/48gb
+#19 CACHED
+
+#20 [14/18] COPY 96gb_single.yml /workspace/96gb_single.yml
+#20 CACHED
+
+#21 [17/18] COPY entrypoint.sh /entrypoint.sh
+#21 CACHED
+
+#22 [18/18] RUN chmod +x /entrypoint.sh
+#22 CACHED
+
+#23 exporting to image
+#23 exporting layers done
+#23 exporting manifest sha256:1d33d9e51b181e13e97334b2d079c3c1871a994c2a9c43fef35d5ae0eb6e6cec done
+#23 exporting config sha256:ec0190803fb7d9503665561e3607daa8df35a1aa21087b12e7d290a491a613e2 done
+#23 exporting attestation manifest sha256:fdb746cdb6d70e79c7c76724ce9ce4933ea6826e244b066f41a705fdb9e9c115 0.1s done
+#23 exporting manifest list sha256:c81cf12e73568af45284d2554993479fa4ce8fa8e3494b6d35e499d976226afd
+#23 exporting manifest list sha256:c81cf12e73568af45284d2554993479fa4ce8fa8e3494b6d35e499d976226afd 0.0s done
+#23 naming to docker.io/library/axolotl-benchmark:latest done
+#23 unpacking to docker.io/library/axolotl-benchmark:latest 0.0s done
+#23 DONE 0.2s
+
+==================================================
+  [2/2] 컨테이너 실행: axolotl-single96-20260421-104246
+==================================================
+==================================================
+  Axolotl Benchmark — LLaMA 3.1 8B QLoRA
+==================================================
+  CONFIG_FILE  : 96gb_single.yml
+  NUM_PROCESSES: 1
+  LAUNCH_MODE  : single
+  BENCHMARK    : single96
+  TIMESTAMP    : 20260421-104246
+  OUTPUT_DIR   : /workspace/final-result/single96/20260421-104246
+
+[1/2] GPU 확인
+NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB
+
+[2/2] 학습 시작
+[2026-04-21 10:42:59,592] [INFO] [axolotl.cli.config] config:
+{
+  "activation_offloading": false,
+  "adapter": "qlora",
+  "axolotl_config_path": "96gb_single.yml",
+  "base_model": "/workspace/model",
+  "base_model_config": "/workspace/model",
+  "batch_size": 16,
+  "bf16": true,
+  "capabilities": {
+    "bf16": true,
+    "compute_capability": "sm_120",
+    "fp8": true,
+    "n_gpu": 1,
+    "n_node": 1,
+    "tf32": true
+  },
+  "context_parallel_size": 1,
+  "dataloader_num_workers": 1,
+  "dataloader_pin_memory": true,
+  "dataloader_prefetch_factor": 256,
+  "dataset_num_proc": 32,
+  "dataset_prepared_path": "/workspace/cache/96gb_cache",
+  "datasets": [
+    {
+      "length": 320,
+      "min_input_id": 100,
+      "path": "synthetic",
+      "sequence_length": 20480,
+      "type": "_synthetic"
+    }
+  ],
+  "ddp": false,
+  "device": "cuda:0",
+  "dion_rank_fraction": 1.0,
+  "dion_rank_multiple_of": 1,
+  "eaft_alpha": 1.0,
+  "eaft_k": 20,
+  "env_capabilities": {
+    "torch_version": "2.11.0"
+  },
+  "eval_batch_size": 2,
+  "eval_causal_lm_metrics": [
+    "sacrebleu",
+    "comet",
+    "ter",
+    "chrf"
+  ],
+  "eval_max_new_tokens": 128,
+  "eval_table_size": 0,
+  "experimental_skip_move_to_device": true,
+  "flash_attention": true,
+  "fp16": false,
+  "generate_samples": false,
+  "generation_do_sample": true,
+  "generation_max_new_tokens": 50,
+  "generation_prompt_ratio": 0.5,
+  "generation_temperature": 0.7,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": true,
+  "gradient_checkpointing_kwargs": {
+    "use_reentrant": true
+  },
+  "include_tkps": true,
+  "is_llama_derived_model": true,
+  "layer_offloading": false,
+  "learning_rate": 0.0002,
+  "lisa_layers_attribute": "model.layers",
+  "load_best_model_at_end": false,
+  "load_in_4bit": true,
+  "load_in_8bit": false,
+  "local_rank": 0,
+  "lora_alpha": 32,
+  "lora_dropout": 0.05,
+  "lora_embedding_kernel": false,
+  "lora_mlp_kernel": false,
+  "lora_o_kernel": false,
+  "lora_qkv_kernel": false,
+  "lora_r": 64,
+  "lora_target_linear": true,
+  "loraplus_lr_embedding": 1e-06,
+  "lr_scheduler": "cosine",
+  "max_steps": 20,
+  "mean_resizing_embeddings": false,
+  "merge_method": "memory_efficient",
+  "micro_batch_size": 2,
+  "model_config_type": "llama",
+  "num_epochs": 1.0,
+  "num_generation_samples": 3,
+  "optimizer": "adamw_torch_fused",
+  "otel_metrics_host": "localhost",
+  "otel_metrics_port": 8000,
+  "output_dir": "/workspace/final-result/single96/20260421-104246",
+  "pad_to_sequence_len": true,
+  "pretrain_multipack_attn": true,
+  "profiler_steps_start": 0,
+  "qlora_sharded_model_loading": false,
+  "quantize_moe_experts": false,
+  "ray_num_workers": 1,
+  "resources_per_worker": {
+    "GPU": 1
+  },
+  "sample_packing": false,
+  "sample_packing_bin_size": 200,
+  "sample_packing_group_size": 100000,
+  "save_only_model": false,
+  "save_safetensors": true,
+  "sequence_len": 20480,
+  "shuffle_before_merging_datasets": false,
+  "shuffle_merged_datasets": true,
+  "skip_prepare_dataset": false,
+  "special_tokens": {
+    "pad_token": "<|end_of_text|>"
+  },
+  "streaming_multipack_buffer_size": 10000,
+  "strict": false,
+  "tensor_parallel_size": 1,
+  "tf32": true,
+  "tiled_mlp_use_original_mlp": true,
+  "tokenizer_config": "/workspace/model",
+  "tokenizer_save_jinja_files": true,
+  "torch_dtype": "torch.bfloat16",
+  "train_on_inputs": false,
+  "trl": {
+    "async_prefetch": false,
+    "log_completions": false,
+    "mask_truncated_completions": false,
+    "ref_model_mixup_alpha": 0.9,
+    "ref_model_sync_steps": 64,
+    "replay_buffer_size": 0,
+    "replay_recompute_logps": true,
+    "reroll_max_groups": 1,
+    "reroll_start_fraction": 1.0,
+    "reward_num_workers": 1,
+    "scale_rewards": true,
+    "skip_zero_advantage_batches": true,
+    "sync_ref_model": false,
+    "use_data_producer": false,
+    "use_vllm": false,
+    "vllm_lora_sync": false,
+    "vllm_server_host": "0.0.0.0",
+    "vllm_server_port": 8000
+  },
+  "use_otel_metrics": false,
+  "use_ray": false,
+  "val_set_size": 0.0,
+  "vllm": {
+    "device": "auto",
+    "dtype": "auto",
+    "gpu_memory_utilization": 0.9,
+    "host": "0.0.0.0",
+    "port": 8000
+  },
+  "weight_decay": 0.0,
+  "world_size": 1
+}
+[2026-04-21 10:42:59,592] [INFO] [axolotl.cli.checks] Skipping HuggingFace token verification because HF_HUB_OFFLINE is set to True. Only local files will be used.
+[2026-04-21 10:43:00,306] [WARNING] [axolotl.loaders.tokenizer] Tokenizer does not have a pad_token, falling back to eos_token: <|end_of_text|>
+[2026-04-21 10:43:00,308] [INFO] [axolotl.loaders.tokenizer] No Chat template selected. Consider adding a chat template for easier inference.
+[2026-04-21 10:43:00,308] [INFO] [axolotl.utils.data.shared] Unable to find prepared dataset in /workspace/cache/96gb_cache/dc4c58ec59939ca146a8522d2ab64c79
+[2026-04-21 10:43:00,308] [INFO] [axolotl.utils.data.sft] Loading raw datasets...
+[2026-04-21 10:43:00,308] [WARNING] [axolotl.utils.data.sft] Processing datasets during training can lead to VRAM instability. Please pre-process your dataset using `axolotl preprocess path/to/config.yml`.
+[2026-04-21 10:43:00,311] [INFO] [axolotl.utils.data.wrappers] Loading dataset: synthetic with base_type: _synthetic and prompt_style: None
+[2026-04-21 10:43:00,312] [INFO] [axolotl.prompt_strategies._synthetic] Generating synthetic dataset: 320 samples, sequence_length=20480, input_id_range=[100, 128000)
+[2026-04-21 10:43:02,168] [INFO] [axolotl.utils.data.utils] min_input_len: 20480
+[2026-04-21 10:43:02,168] [INFO] [axolotl.utils.data.utils] max_input_len: 20480
+Dropping Invalid Sequences (<None or >20480) (num_proc=32):   0%|          | 0/320 [00:00<?, ? examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):   3%|▎         | 10/320 [00:01<00:32,  9.49 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):   6%|▋         | 20/320 [00:01<00:21, 14.10 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):   9%|▉         | 30/320 [00:02<00:17, 16.47 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  12%|█▎        | 40/320 [00:02<00:15, 18.15 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  16%|█▌        | 50/320 [00:02<00:14, 19.24 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  19%|█▉        | 60/320 [00:03<00:13, 19.79 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  22%|██▏       | 70/320 [00:03<00:12, 20.06 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  25%|██▌       | 80/320 [00:04<00:12, 19.69 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  28%|██▊       | 90/320 [00:04<00:11, 20.12 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  31%|███▏      | 100/320 [00:05<00:10, 20.33 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  34%|███▍      | 110/320 [00:05<00:10, 20.77 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  38%|███▊      | 120/320 [00:06<00:09, 21.04 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  41%|████      | 130/320 [00:06<00:09, 21.05 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  44%|████▍     | 140/320 [00:07<00:08, 21.16 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  47%|████▋     | 150/320 [00:07<00:08, 21.20 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  50%|█████     | 160/320 [00:08<00:07, 20.98 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  53%|█████▎    | 170/320 [00:08<00:07, 21.09 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  56%|█████▋    | 180/320 [00:09<00:06, 21.16 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  59%|█████▉    | 190/320 [00:09<00:06, 21.27 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  62%|██████▎   | 200/320 [00:10<00:05, 20.73 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  66%|██████▌   | 210/320 [00:10<00:05, 21.02 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  69%|██████▉   | 220/320 [00:11<00:04, 20.98 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  72%|███████▏  | 230/320 [00:11<00:04, 21.03 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  75%|███████▌  | 240/320 [00:11<00:03, 21.32 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  78%|███████▊  | 250/320 [00:12<00:03, 21.23 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  81%|████████▏ | 260/320 [00:12<00:02, 21.12 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  84%|████████▍ | 270/320 [00:13<00:02, 21.28 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  88%|████████▊ | 280/320 [00:13<00:01, 21.35 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  91%|█████████ | 290/320 [00:14<00:01, 21.20 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  94%|█████████▍| 300/320 [00:14<00:00, 20.89 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32):  97%|█████████▋| 310/320 [00:15<00:00, 20.98 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32): 100%|██████████| 320/320 [00:15<00:00, 21.22 examples/s]Dropping Invalid Sequences (<None or >20480) (num_proc=32): 100%|██████████| 320/320 [00:15<00:00, 20.01 examples/s]
+Saving the dataset (0/1 shards):   0%|          | 0/320 [00:00<?, ? examples/s]Saving the dataset (0/1 shards): 100%|██████████| 320/320 [00:00<00:00, 373.96 examples/s]Saving the dataset (1/1 shards): 100%|██████████| 320/320 [00:00<00:00, 373.96 examples/s]Saving the dataset (1/1 shards): 100%|██████████| 320/320 [00:00<00:00, 343.44 examples/s]
+[2026-04-21 10:43:19,182] [INFO] [axolotl.utils.data.sft] Maximum number of steps set at 20
+[2026-04-21 10:43:19,870] [WARNING] [axolotl.loaders.tokenizer] Tokenizer does not have a pad_token, falling back to eos_token: <|end_of_text|>
+[2026-04-21 10:43:19,871] [INFO] [axolotl.loaders.tokenizer] No Chat template selected. Consider adding a chat template for easier inference.
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:40,  7.20it/s]Loading weights:   1%|          | 2/291 [00:00<00:40,  7.17it/s][2026-04-21 10:43:20,622] [WARNING] [py.warnings] /axo-venv/lib/python3.12/site-packages/bitsandbytes/backends/cuda/ops.py:212: FutureWarning: _check_is_size will be removed in a future PyTorch release along with guard_size_oblivious.     Use _check(i >= 0) instead.
+  torch._check_is_size(blocksize)
+
+Loading weights:   4%|▍         | 13/291 [00:00<00:06, 44.24it/s]Loading weights:   9%|▉         | 27/291 [00:00<00:03, 75.65it/s]Loading weights:  14%|█▍        | 41/291 [00:00<00:02, 95.26it/s]Loading weights:  20%|█▉        | 58/291 [00:00<00:02, 115.51it/s]Loading weights:  25%|██▍       | 72/291 [00:00<00:01, 121.93it/s]Loading weights:  30%|██▉       | 86/291 [00:00<00:01, 123.92it/s]Loading weights:  35%|███▌      | 103/291 [00:01<00:01, 132.99it/s]Loading weights:  40%|████      | 117/291 [00:01<00:01, 133.20it/s]Loading weights:  45%|████▌     | 131/291 [00:01<00:01, 133.03it/s]Loading weights:  51%|█████     | 148/291 [00:01<00:01, 138.92it/s]Loading weights:  56%|█████▌    | 162/291 [00:01<00:00, 136.62it/s]Loading weights:  60%|██████    | 176/291 [00:01<00:00, 135.10it/s]Loading weights:  66%|██████▋   | 193/291 [00:01<00:00, 140.14it/s]Loading weights:  71%|███████▏  | 208/291 [00:01<00:00, 137.91it/s]Loading weights:  76%|███████▋  | 222/291 [00:01<00:00, 130.65it/s]Loading weights:  82%|████████▏ | 239/291 [00:02<00:00, 136.20it/s]Loading weights:  88%|████████▊ | 256/291 [00:02<00:00, 139.51it/s]Loading weights:  93%|█████████▎| 270/291 [00:02<00:00, 137.22it/s]Loading weights:  98%|█████████▊| 284/291 [00:02<00:00, 135.92it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 122.02it/s]
+[2026-04-21 10:43:22,901] [INFO] [axolotl.loaders.model] converting PEFT model w/ prepare_model_for_kbit_training
+[2026-04-21 10:43:22,903] [INFO] [axolotl.loaders.model] Converting modules to torch.bfloat16
+[2026-04-21 10:43:22,906] [INFO] [axolotl.loaders.adapter] found linear modules: ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj']
+trainable params: 167,772,160 || all params: 8,198,033,408 || trainable%: 2.0465
+[2026-04-21 10:43:25,749] [INFO] [axolotl.train] Pre-saving adapter config to /workspace/final-result/single96/20260421-104246...
+[2026-04-21 10:43:25,749] [INFO] [axolotl.train] Pre-saving tokenizer to /workspace/final-result/single96/20260421-104246...
+[2026-04-21 10:43:25,870] [INFO] [axolotl.train] Pre-saving model config to /workspace/final-result/single96/20260421-104246...
+[2026-04-21 10:43:25,873] [INFO] [axolotl.train] Starting trainer...
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'pad_token_id': 128001}.
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [01:54<36:20, 114.77s/it]{'loss': '13.42', 'grad_norm': '0.193', 'learning_rate': '0.0002', 'ppl': '6.721e+05', 'memory/max_active (GiB)': '75.93', 'memory/max_allocated (GiB)': '75.93', 'memory/device_reserved (GiB)': '88.45', 'tokens/train_per_sec_per_gpu': '367', 'tokens/total': 327680, 'tokens/trainable': 327680, 'epoch': '0.05'}
+                                                 5%|▌         | 1/20 [01:54<36:20, 114.77s/it] 10%|█         | 2/20 [04:01<36:35, 121.96s/it]                                               {'loss': '12.83', 'grad_norm': '0.218', 'learning_rate': '0.0001988', 'ppl': '3.715e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '322.6', 'tokens/total': 655360, 'tokens/trainable': 655360, 'epoch': '0.1'}
+ 10%|█         | 2/20 [04:01<36:35, 121.96s/it] 15%|█▌        | 3/20 [06:09<35:18, 124.60s/it]{'loss': '12.46', 'grad_norm': '0.2509', 'learning_rate': '0.0001951', 'ppl': '2.583e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320.6', 'tokens/total': 983040, 'tokens/trainable': 983040, 'epoch': '0.15'}
+                                                15%|█▌        | 3/20 [06:09<35:18, 124.60s/it] 20%|██        | 4/20 [08:17<33:32, 125.77s/it]                                                20%|██        | 4/20 [08:17<33:32, 125.77s/it]{'loss': '12.28', 'grad_norm': '0.1207', 'learning_rate': '0.0001891', 'ppl': '2.144e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '321.1', 'tokens/total': 1310720, 'tokens/trainable': 1310720, 'epoch': '0.2'}
+ 25%|██▌       | 5/20 [10:24<31:37, 126.48s/it]                                               {'loss': '12.2', 'grad_norm': '0.09073', 'learning_rate': '0.0001809', 'ppl': '1.98e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320.7', 'tokens/total': 1638400, 'tokens/trainable': 1638400, 'epoch': '0.25'}
+ 25%|██▌       | 5/20 [10:24<31:37, 126.48s/it] 30%|███       | 6/20 [12:32<29:36, 126.87s/it]{'loss': '12.14', 'grad_norm': '0.146', 'learning_rate': '0.0001707', 'ppl': '1.872e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320.9', 'tokens/total': 1966080, 'tokens/trainable': 1966080, 'epoch': '0.3'}
+                                                30%|███       | 6/20 [12:32<29:36, 126.87s/it] 35%|███▌      | 7/20 [14:40<27:32, 127.12s/it]                                                35%|███▌      | 7/20 [14:40<27:32, 127.12s/it]{'loss': '12.1', 'grad_norm': '0.05728', 'learning_rate': '0.0001588', 'ppl': '1.798e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320.9', 'tokens/total': 2293760, 'tokens/trainable': 2293760, 'epoch': '0.35'}
+ 40%|████      | 8/20 [16:48<25:28, 127.40s/it]                                                40%|████      | 8/20 [16:48<25:28, 127.40s/it]{'loss': '12.09', 'grad_norm': '0.05379', 'learning_rate': '0.0001454', 'ppl': '1.775e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320', 'tokens/total': 2621440, 'tokens/trainable': 2621440, 'epoch': '0.4'}
+ 45%|████▌     | 9/20 [18:55<23:22, 127.46s/it]                                               {'loss': '12.06', 'grad_norm': '0.04266', 'learning_rate': '0.0001309', 'ppl': '1.731e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '321', 'tokens/total': 2949120, 'tokens/trainable': 2949120, 'epoch': '0.45'}
+ 45%|████▌     | 9/20 [18:55<23:22, 127.46s/it] 50%|█████     | 10/20 [21:03<21:16, 127.68s/it]                                                 50%|█████     | 10/20 [21:03<21:16, 127.68s/it]{'loss': '12.04', 'grad_norm': '0.02971', 'learning_rate': '0.0001156', 'ppl': '1.689e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '319.6', 'tokens/total': 3276800, 'tokens/trainable': 3276800, 'epoch': '0.5'}
+ 55%|█████▌    | 11/20 [23:12<19:11, 127.92s/it]                                                {'loss': '12.02', 'grad_norm': '0.03785', 'learning_rate': '0.0001', 'ppl': '1.668e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '318.8', 'tokens/total': 3604480, 'tokens/trainable': 3604480, 'epoch': '0.55'}
+ 55%|█████▌    | 11/20 [23:12<19:11, 127.92s/it] 60%|██████    | 12/20 [25:20<17:04, 128.01s/it]{'loss': '12.02', 'grad_norm': '0.03936', 'learning_rate': '8.436e-05', 'ppl': '1.653e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '319.4', 'tokens/total': 3932160, 'tokens/trainable': 3932160, 'epoch': '0.6'}
+                                                 60%|██████    | 12/20 [25:20<17:04, 128.01s/it] 65%|██████▌   | 13/20 [27:29<14:57, 128.24s/it]                                                {'loss': '12', 'grad_norm': '0.03605', 'learning_rate': '6.91e-05', 'ppl': '1.633e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '318.1', 'tokens/total': 4259840, 'tokens/trainable': 4259840, 'epoch': '0.65'}
+ 65%|██████▌   | 13/20 [27:29<14:57, 128.24s/it] 70%|███████   | 14/20 [29:37<12:48, 128.08s/it]                                                {'loss': '11.99', 'grad_norm': '0.03889', 'learning_rate': '5.46e-05', 'ppl': '1.617e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320.7', 'tokens/total': 4587520, 'tokens/trainable': 4587520, 'epoch': '0.7'}
+ 70%|███████   | 14/20 [29:37<12:48, 128.08s/it] 75%|███████▌  | 15/20 [31:45<10:41, 128.22s/it]                                                {'loss': '11.99', 'grad_norm': '0.04518', 'learning_rate': '4.122e-05', 'ppl': '1.611e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '318.7', 'tokens/total': 4915200, 'tokens/trainable': 4915200, 'epoch': '0.75'}
+ 75%|███████▌  | 15/20 [31:45<10:41, 128.22s/it] 80%|████████  | 16/20 [33:53<08:32, 128.11s/it]                                                {'loss': '11.99', 'grad_norm': '0.0409', 'learning_rate': '2.929e-05', 'ppl': '1.606e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '320.3', 'tokens/total': 5242880, 'tokens/trainable': 5242880, 'epoch': '0.8'}
+ 80%|████████  | 16/20 [33:53<08:32, 128.11s/it] 85%|████████▌ | 17/20 [36:00<06:23, 127.94s/it]                                                 85%|████████▌ | 17/20 [36:00<06:23, 127.94s/it]{'loss': '11.98', 'grad_norm': '0.04132', 'learning_rate': '1.91e-05', 'ppl': '1.593e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '321.2', 'tokens/total': 5570560, 'tokens/trainable': 5570560, 'epoch': '0.85'}
+ 90%|█████████ | 18/20 [38:09<04:15, 127.98s/it]                                                {'loss': '11.98', 'grad_norm': '0.0368', 'learning_rate': '1.09e-05', 'ppl': '1.591e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '319.8', 'tokens/total': 5898240, 'tokens/trainable': 5898240, 'epoch': '0.9'}
+ 90%|█████████ | 18/20 [38:09<04:15, 127.98s/it] 95%|█████████▌| 19/20 [40:16<02:07, 127.82s/it]                                                {'loss': '11.98', 'grad_norm': '0.03383', 'learning_rate': '4.894e-06', 'ppl': '1.595e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '321.3', 'tokens/total': 6225920, 'tokens/trainable': 6225920, 'epoch': '0.95'}
+ 95%|█████████▌| 19/20 [40:16<02:07, 127.82s/it]100%|██████████| 20/20 [42:23<00:00, 127.65s/it]                                                100%|██████████| 20/20 [42:23<00:00, 127.65s/it]{'loss': '11.98', 'grad_norm': '0.03188', 'learning_rate': '1.231e-06', 'ppl': '1.592e+05', 'memory/max_active (GiB)': '77.18', 'memory/max_allocated (GiB)': '77.18', 'memory/device_reserved (GiB)': '88.71', 'tokens/train_per_sec_per_gpu': '322', 'tokens/total': 6553600, 'tokens/trainable': 6553600, 'epoch': '1'}
+[2026-04-21 11:25:49,891] [INFO] [axolotl.core.trainers.base] Saving model checkpoint to /workspace/final-result/single96/20260421-104246/checkpoint-20
+{'train_runtime': '2545', 'train_samples_per_second': '0.126', 'train_steps_per_second': '0.008', 'train_loss': '12.18', 'memory/max_active (GiB)': '7.21', 'memory/max_allocated (GiB)': '7.21', 'memory/device_reserved (GiB)': '88.71', 'epoch': '1', 'tokens/train_per_sec_per_gpu': '0'}
+                                                100%|██████████| 20/20 [42:25<00:00, 127.65s/it]100%|██████████| 20/20 [42:25<00:00, 127.27s/it]
+[2026-04-21 11:25:51,862] [INFO] [axolotl.train] Training completed! Saving trained model to /workspace/final-result/single96/20260421-104246.
+[2026-04-21 11:25:52,567] [INFO] [axolotl.train] Model successfully saved to /workspace/final-result/single96/20260421-104246
+
+[완료] 결과물 위치: /workspace/final-result/single96/20260421-104246
+
+==================================================
+  [완료] 결과물 저장 위치: /home/ubuntu/automated_benchmark/output/single96/20260421-104246
+==================================================

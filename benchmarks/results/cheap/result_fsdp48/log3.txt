@@ -1,0 +1,354 @@
+==================================================
+  벤치마크 타입 : fsdp48 (2x 48GB GPU (FSDP2 + QLoRA))
+  YAML         : 48gb_fsdp.yml
+  프로세스 수  : 2
+  실행 모드    : fsdp
+  타임스탬프   : 20260421-124200
+  출력 경로    : /home/ubuntu/automated_benchmark/output/fsdp48/20260421-124200
+==================================================
+
+[사전점검] 모델 경로: /home/ubuntu/automated_benchmark/models/Llama-3.1-8B
+  → 확인 완료
+
+[사전점검] GPU 디바이스 설정
+  → 사용 디바이스: device=0,1 (FSDP)
+
+==================================================
+  [1/2] Docker 이미지 빌드: axolotl-benchmark
+==================================================
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.72kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/nvidia/cuda:13.0.3-cudnn-devel-ubuntu24.04
+#2 DONE 1.3s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [ 1/18] FROM docker.io/nvidia/cuda:13.0.3-cudnn-devel-ubuntu24.04@sha256:0230b7f243483cb15969fa3cc724a9459599604427052fc2a0d4291c7c0647dd
+#4 resolve docker.io/nvidia/cuda:13.0.3-cudnn-devel-ubuntu24.04@sha256:0230b7f243483cb15969fa3cc724a9459599604427052fc2a0d4291c7c0647dd 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 170B done
+#5 DONE 0.0s
+
+#6 [15/18] COPY 48gb_ddp.yml    /workspace/48gb_ddp.yml
+#6 CACHED
+
+#7 [ 3/18] RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1 &&     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
+#7 CACHED
+
+#8 [13/18] COPY 48gb_single.yml /workspace/48gb_single.yml
+#8 CACHED
+
+#9 [ 5/18] RUN mkdir -p /workspace/cache /workspace/result /workspace/final-result/48gb
+#9 CACHED
+
+#10 [10/18] RUN pip install --no-build-isolation axolotl==0.16.1
+#10 CACHED
+
+#11 [12/18] RUN pip install     "lm_eval[hf]==0.4.11"     evaluate==0.4.1     rouge_score==0.1.2     sacrebleu==2.6.0     scipy==1.17.1     wandb     tensorboard     optimum     torchao==0.17.0     hf_transfer
+#11 CACHED
+
+#12 [17/18] COPY entrypoint.sh /entrypoint.sh
+#12 CACHED
+
+#13 [16/18] COPY 48gb_fsdp.yml   /workspace/48gb_fsdp.yml
+#13 CACHED
+
+#14 [ 6/18] RUN python -m venv /axo-venv
+#14 CACHED
+
+#15 [ 4/18] WORKDIR /workspace
+#15 CACHED
+
+#16 [ 2/18] RUN apt-get update && apt-get install -y     python3.12 python3.12-dev python3.12-venv     python3-pip git wget curl build-essential     libssl-dev libffi-dev ninja-build     && rm -rf /var/lib/apt/lists/*
+#16 CACHED
+
+#17 [11/18] RUN pip install xformers==0.0.35 --index-url https://download.pytorch.org/whl/cu130
+#17 CACHED
+
+#18 [14/18] COPY 96gb_single.yml /workspace/96gb_single.yml
+#18 CACHED
+
+#19 [ 9/18] RUN pip install     "https://github.com/mjun0812/flash-attention-prebuild-wheels/releases/download/v0.9.4/flash_attn-2.8.3+cu130torch2.11-cp312-cp312-linux_x86_64.whl"
+#19 CACHED
+
+#20 [ 7/18] RUN pip install --upgrade pip packaging==26.0 setuptools wheel ninja
+#20 CACHED
+
+#21 [ 8/18] RUN pip install     torch==2.11.0+cu130     torchvision==0.26.0+cu130     torchaudio==2.11.0+cu130     --index-url https://download.pytorch.org/whl/cu130
+#21 CACHED
+
+#22 [18/18] RUN chmod +x /entrypoint.sh
+#22 CACHED
+
+#23 exporting to image
+#23 exporting layers 0.0s done
+#23 exporting manifest sha256:87f0a6c3506068c3ed1264767093c231836eb79c5777f2d3386cdd2d0ba13afe done
+#23 exporting config sha256:1f931fb520f8e8b6a6d07e7e63439f3aa74e935b8cbbd8d8b10d1185d848f14d done
+#23 exporting attestation manifest sha256:fdeb0c860665f35da96094cc0c6c0b645291b7f2cb8fa2babfe3f7ac1551bfde 0.0s done
+#23 exporting manifest list sha256:276e0435a787b856a0e3e102d217c21bab63405507f110e236862c76b9d9a2c3
+#23 exporting manifest list sha256:276e0435a787b856a0e3e102d217c21bab63405507f110e236862c76b9d9a2c3 0.0s done
+#23 naming to docker.io/library/axolotl-benchmark:latest done
+#23 unpacking to docker.io/library/axolotl-benchmark:latest 0.0s done
+#23 DONE 0.3s
+
+==================================================
+  [2/2] 컨테이너 실행: axolotl-fsdp48-20260421-124200
+==================================================
+==================================================
+  Axolotl Benchmark — LLaMA 3.1 8B QLoRA
+==================================================
+  CONFIG_FILE  : 48gb_fsdp.yml
+  NUM_PROCESSES: 2
+  LAUNCH_MODE  : fsdp
+  BENCHMARK    : fsdp48
+  TIMESTAMP    : 20260421-124200
+  OUTPUT_DIR   : /workspace/final-result/fsdp48/20260421-124200
+
+[1/2] GPU 확인
+NVIDIA RTX 6000 Ada Generation, 49140 MiB
+NVIDIA RTX 6000 Ada Generation, 49140 MiB
+
+[2/2] 학습 시작
+[2026-04-21 12:42:15,073] [WARNING] [axolotl.utils.schemas.validation] Configuring FSDP fields with the `fsdp_` prefix is deprecated. Please omit the `fsdp_` prefix from the any fields in `fsdp_config`.
+[2026-04-21 12:42:15,128] [INFO] [axolotl.cli.config] config:
+{
+  "activation_offloading": false,
+  "adapter": "qlora",
+  "axolotl_config_path": "48gb_fsdp.yml",
+  "base_model": "/workspace/model",
+  "base_model_config": "/workspace/model",
+  "batch_size": 16,
+  "bf16": true,
+  "capabilities": {
+    "bf16": true,
+    "compute_capability": "sm_89",
+    "fp8": false,
+    "n_gpu": 2,
+    "n_node": 1,
+    "tf32": true
+  },
+  "context_parallel_size": 1,
+  "dataloader_num_workers": 2,
+  "dataloader_pin_memory": true,
+  "dataloader_prefetch_factor": 256,
+  "dataset_num_proc": 32,
+  "dataset_prepared_path": "/workspace/cache/48gb_fsdp_cache",
+  "datasets": [
+    {
+      "length": 320,
+      "min_input_id": 100,
+      "path": "synthetic",
+      "sequence_length": 20480,
+      "type": "_synthetic"
+    }
+  ],
+  "ddp": true,
+  "device": "cuda:0",
+  "device_map": {
+    "": 0
+  },
+  "dion_rank_fraction": 1.0,
+  "dion_rank_multiple_of": 1,
+  "eaft_alpha": 1.0,
+  "eaft_k": 20,
+  "env_capabilities": {
+    "torch_version": "2.11.0"
+  },
+  "eval_batch_size": 1,
+  "eval_causal_lm_metrics": [
+    "sacrebleu",
+    "comet",
+    "ter",
+    "chrf"
+  ],
+  "eval_max_new_tokens": 128,
+  "eval_table_size": 0,
+  "experimental_skip_move_to_device": true,
+  "flash_attention": true,
+  "fp16": false,
+  "fsdp": true,
+  "fsdp_config": {
+    "activation_checkpointing": true,
+    "auto_wrap_policy": "TRANSFORMER_BASED_WRAP",
+    "cpu_ram_efficient_loading": false,
+    "fsdp_version": 2,
+    "offload_params": false,
+    "reshard_after_forward": true,
+    "state_dict_type": "FULL_STATE_DICT",
+    "transformer_layer_cls_to_wrap": "LlamaDecoderLayer"
+  },
+  "fsdp_version": 2,
+  "generate_samples": false,
+  "generation_do_sample": true,
+  "generation_max_new_tokens": 50,
+  "generation_prompt_ratio": 0.5,
+  "generation_temperature": 0.7,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": false,
+  "include_tkps": true,
+  "is_llama_derived_model": true,
+  "layer_offloading": false,
+  "learning_rate": 0.0002,
+  "lisa_layers_attribute": "model.layers",
+  "load_best_model_at_end": false,
+  "load_in_4bit": true,
+  "load_in_8bit": false,
+  "local_rank": 0,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "lora_embedding_kernel": false,
+  "lora_mlp_kernel": false,
+  "lora_o_kernel": false,
+  "lora_qkv_kernel": false,
+  "lora_r": 64,
+  "lora_target_linear": true,
+  "loraplus_lr_embedding": 1e-06,
+  "lr_scheduler": "cosine",
+  "max_steps": 20,
+  "mean_resizing_embeddings": false,
+  "merge_method": "memory_efficient",
+  "micro_batch_size": 1,
+  "model_config_type": "llama",
+  "num_epochs": 1.0,
+  "num_generation_samples": 3,
+  "optimizer": "adamw_torch_fused",
+  "otel_metrics_host": "localhost",
+  "otel_metrics_port": 8000,
+  "output_dir": "/workspace/final-result/fsdp48/20260421-124200",
+  "pad_to_sequence_len": true,
+  "pretrain_multipack_attn": true,
+  "profiler_steps_start": 0,
+  "qlora_sharded_model_loading": false,
+  "quantize_moe_experts": false,
+  "ray_num_workers": 1,
+  "resources_per_worker": {
+    "GPU": 1
+  },
+  "sample_packing": false,
+  "sample_packing_bin_size": 200,
+  "sample_packing_group_size": 100000,
+  "save_only_model": false,
+  "save_safetensors": true,
+  "sequence_len": 20480,
+  "shuffle_before_merging_datasets": false,
+  "shuffle_merged_datasets": true,
+  "skip_prepare_dataset": false,
+  "special_tokens": {
+    "pad_token": "<|end_of_text|>"
+  },
+  "streaming_multipack_buffer_size": 10000,
+  "strict": false,
+  "tensor_parallel_size": 1,
+  "tf32": true,
+  "tiled_mlp_use_original_mlp": true,
+  "tokenizer_config": "/workspace/model",
+  "tokenizer_save_jinja_files": true,
+  "torch_dtype": "torch.bfloat16",
+  "train_on_inputs": false,
+  "trl": {
+    "async_prefetch": false,
+    "log_completions": false,
+    "mask_truncated_completions": false,
+    "ref_model_mixup_alpha": 0.9,
+    "ref_model_sync_steps": 64,
+    "replay_buffer_size": 0,
+    "replay_recompute_logps": true,
+    "reroll_max_groups": 1,
+    "reroll_start_fraction": 1.0,
+    "reward_num_workers": 1,
+    "scale_rewards": true,
+    "skip_zero_advantage_batches": true,
+    "sync_ref_model": false,
+    "use_data_producer": false,
+    "use_vllm": false,
+    "vllm_lora_sync": false,
+    "vllm_server_host": "0.0.0.0",
+    "vllm_server_port": 8000
+  },
+  "use_otel_metrics": false,
+  "use_ray": false,
+  "val_set_size": 0.0,
+  "vllm": {
+    "device": "auto",
+    "dtype": "auto",
+    "gpu_memory_utilization": 0.9,
+    "host": "0.0.0.0",
+    "port": 8000
+  },
+  "weight_decay": 0.0,
+  "world_size": 2
+}
+[2026-04-21 12:42:15,128] [INFO] [axolotl.cli.checks] Skipping HuggingFace token verification because HF_HUB_OFFLINE is set to True. Only local files will be used.
+[2026-04-21 12:42:16,135] [WARNING] [axolotl.loaders.tokenizer] Tokenizer does not have a pad_token, falling back to eos_token: <|end_of_text|>
+[2026-04-21 12:42:16,136] [INFO] [axolotl.loaders.tokenizer] No Chat template selected. Consider adding a chat template for easier inference.
+[2026-04-21 12:42:16,137] [INFO] [axolotl.utils.data.shared] Loading prepared dataset from disk at /workspace/cache/48gb_fsdp_cache/dc4c58ec59939ca146a8522d2ab64c79...
+[2026-04-21 12:42:16,158] [INFO] [axolotl.utils.data.sft] Maximum number of steps set at 20
+[2026-04-21 12:42:17,059] [WARNING] [axolotl.loaders.tokenizer] Tokenizer does not have a pad_token, falling back to eos_token: <|end_of_text|>
+[2026-04-21 12:42:17,060] [INFO] [axolotl.loaders.tokenizer] No Chat template selected. Consider adding a chat template for easier inference.
+[2026-04-21 12:42:17,122] [INFO] [axolotl.monkeypatch.fsdp2_qlora] Successfully applied FSDP _init_sharded_param patch
+[2026-04-21 12:42:17,124] [INFO] [axolotl.monkeypatch.fsdp2_qlora] Successfully applied FSDP init_unsharded_param patch
+[2026-04-21 12:42:17,124] [INFO] [axolotl.monkeypatch.fsdp2_qlora] Patched FSDPParam.init_dtype_attrs for non-float quantized params
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:40,  7.20it/s]Loading weights:   1%|          | 2/291 [00:00<00:40,  7.14it/s][2026-04-21 12:42:17,455] [WARNING] [py.warnings] /axo-venv/lib/python3.12/site-packages/bitsandbytes/backends/cuda/ops.py:212: FutureWarning: _check_is_size will be removed in a future PyTorch release along with guard_size_oblivious.     Use _check(i >= 0) instead.
+  torch._check_is_size(blocksize)
+
+Loading weights:   4%|▍         | 13/291 [00:00<00:06, 43.46it/s]Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   8%|▊         | 24/291 [00:00<00:04, 64.83it/s]Loading weights:  14%|█▎        | 40/291 [00:00<00:02, 94.02it/s]Loading weights:   0%|          | 1/291 [00:00<00:48,  6.00it/s]Loading weights:  18%|█▊        | 51/291 [00:00<00:02, 95.89it/s]Loading weights:   1%|          | 2/291 [00:00<00:48,  5.97it/s]Loading weights:  23%|██▎       | 67/291 [00:00<00:01, 113.82it/s][2026-04-21 12:42:17,981] [WARNING] [py.warnings] /axo-venv/lib/python3.12/site-packages/bitsandbytes/backends/cuda/ops.py:212: FutureWarning: _check_is_size will be removed in a future PyTorch release along with guard_size_oblivious.     Use _check(i >= 0) instead.
+  torch._check_is_size(blocksize)
+
+Loading weights:   3%|▎         | 8/291 [00:00<00:11, 23.90it/s]Loading weights:  27%|██▋       | 79/291 [00:00<00:01, 112.40it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:04, 58.52it/s]Loading weights:  32%|███▏      | 94/291 [00:01<00:01, 119.59it/s]Loading weights:  11%|█         | 32/291 [00:00<00:03, 70.98it/s]Loading weights:  37%|███▋      | 107/291 [00:01<00:01, 116.86it/s]Loading weights:  15%|█▌        | 45/291 [00:00<00:02, 87.38it/s]Loading weights:  42%|████▏     | 121/291 [00:01<00:01, 121.45it/s]Loading weights:  20%|█▉        | 58/291 [00:00<00:02, 99.10it/s]Loading weights:  46%|████▌     | 134/291 [00:01<00:01, 121.06it/s]Loading weights:  24%|██▎       | 69/291 [00:00<00:02, 97.84it/s]Loading weights:  51%|█████     | 148/291 [00:01<00:01, 124.35it/s]Loading weights:  29%|██▉       | 85/291 [00:01<00:01, 110.77it/s]Loading weights:  55%|█████▌    | 161/291 [00:01<00:01, 120.87it/s]Loading weights:  33%|███▎      | 97/291 [00:01<00:01, 107.70it/s]Loading weights:  60%|██████    | 175/291 [00:01<00:00, 123.60it/s]Loading weights:  38%|███▊      | 112/291 [00:01<00:01, 114.39it/s]Loading weights:  65%|██████▍   | 188/291 [00:01<00:00, 119.96it/s]Loading weights:  43%|████▎     | 124/291 [00:01<00:01, 110.40it/s]Loading weights:  69%|██████▉   | 202/291 [00:01<00:00, 122.15it/s]Loading weights:  48%|████▊     | 139/291 [00:01<00:01, 117.01it/s]Loading weights:  74%|███████▍  | 215/291 [00:02<00:00, 119.51it/s]Loading weights:  52%|█████▏    | 151/291 [00:01<00:01, 111.93it/s]Loading weights:  79%|███████▊  | 229/291 [00:02<00:00, 122.35it/s]Loading weights:  57%|█████▋    | 166/291 [00:01<00:01, 117.81it/s]Loading weights:  83%|████████▎ | 242/291 [00:02<00:00, 119.95it/s]Loading weights:  88%|████████▊ | 256/291 [00:02<00:00, 122.87it/s]Loading weights:  61%|██████    | 178/291 [00:01<00:01, 112.51it/s]Loading weights:  66%|██████▌   | 191/291 [00:02<00:00, 117.01it/s]Loading weights:  92%|█████████▏| 269/291 [00:02<00:00, 118.61it/s]Loading weights:  70%|██████▉   | 203/291 [00:02<00:00, 111.00it/s]Loading weights:  97%|█████████▋| 283/291 [00:02<00:00, 120.86it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 109.73it/s]
+Loading weights:  74%|███████▍  | 216/291 [00:02<00:00, 115.06it/s]Loading weights:  79%|███████▉  | 230/291 [00:02<00:00, 118.11it/s]Loading weights:  84%|████████▍ | 245/291 [00:02<00:00, 126.40it/s]Loading weights:  89%|████████▊ | 258/291 [00:02<00:00, 119.48it/s]Loading weights:  94%|█████████▍| 274/291 [00:02<00:00, 130.55it/s]Loading weights:  99%|█████████▉| 288/291 [00:02<00:00, 128.95it/s]Loading weights: 100%|██████████| 291/291 [00:02<00:00, 104.19it/s]
+[2026-04-21 12:42:20,663] [INFO] [axolotl.loaders.adapter] found linear modules: ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj']
+trainable params: 167,772,160 || all params: 8,198,033,408 || trainable%: 2.0465
+[2026-04-21 12:42:22,843] [WARNING] [accelerate.utils.dataclasses] sync_module_states is obsolete in FSDP2, as it is not needed anymore.Setting sync_module_states to None.
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'pad_token_id': 128001}.
+[2026-04-21 12:42:23,803] [WARNING] [accelerate.utils.dataclasses] sync_module_states is obsolete in FSDP2, as it is not needed anymore.Setting sync_module_states to None.
+[2026-04-21 12:42:23,860] [INFO] [axolotl.train] Pre-saving adapter config to /workspace/final-result/fsdp48/20260421-124200...
+[2026-04-21 12:42:23,860] [INFO] [axolotl.train] Pre-saving tokenizer to /workspace/final-result/fsdp48/20260421-124200...
+[2026-04-21 12:42:23,996] [INFO] [axolotl.train] Pre-saving model config to /workspace/final-result/fsdp48/20260421-124200...
+[2026-04-21 12:42:23,999] [INFO] [axolotl.train] Starting trainer...
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'pad_token_id': 128001}.
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [02:35<49:08, 155.21s/it]                                                 5%|▌         | 1/20 [02:35<49:08, 155.21s/it]{'loss': '13.41', 'grad_norm': '0.09477', 'learning_rate': '0.0002', 'ppl': '6.667e+05', 'memory/max_active (GiB)': '45.09', 'memory/max_allocated (GiB)': '45.09', 'memory/device_reserved (GiB)': '45.85', 'tokens/train_per_sec_per_gpu': '134.6', 'tokens/total': 327680, 'tokens/trainable': 327680, 'epoch': '0.05'}
+ 10%|█         | 2/20 [05:11<46:48, 156.03s/it]                                                10%|█         | 2/20 [05:11<46:48, 156.03s/it]{'loss': '13.19', 'grad_norm': '0.1278', 'learning_rate': '0.0001988', 'ppl': '5.337e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '130.8', 'tokens/total': 655360, 'tokens/trainable': 655360, 'epoch': '0.1'}
+ 15%|█▌        | 3/20 [07:47<44:12, 156.04s/it]                                                15%|█▌        | 3/20 [07:47<44:12, 156.04s/it]{'loss': '12.51', 'grad_norm': '0.1194', 'learning_rate': '0.0001951', 'ppl': '2.704e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.2', 'tokens/total': 983040, 'tokens/trainable': 983040, 'epoch': '0.15'}
+ 20%|██        | 4/20 [10:24<41:38, 156.18s/it]                                                20%|██        | 4/20 [10:24<41:38, 156.18s/it]{'loss': '12.31', 'grad_norm': '0.1036', 'learning_rate': '0.0001891', 'ppl': '2.225e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '130.9', 'tokens/total': 1310720, 'tokens/trainable': 1310720, 'epoch': '0.2'}
+ 25%|██▌       | 5/20 [13:00<39:03, 156.24s/it]                                                25%|██▌       | 5/20 [13:00<39:03, 156.24s/it]{'loss': '12.19', 'grad_norm': '0.08252', 'learning_rate': '0.0001809', 'ppl': '1.963e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131', 'tokens/total': 1638400, 'tokens/trainable': 1638400, 'epoch': '0.25'}
+ 30%|███       | 6/20 [15:36<36:25, 156.12s/it]                                               {'loss': '12.16', 'grad_norm': '0.1498', 'learning_rate': '0.0001707', 'ppl': '1.91e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.4', 'tokens/total': 1966080, 'tokens/trainable': 1966080, 'epoch': '0.3'}
+ 30%|███       | 6/20 [15:36<36:25, 156.12s/it] 35%|███▌      | 7/20 [18:12<33:49, 156.11s/it]                                                35%|███▌      | 7/20 [18:12<33:49, 156.11s/it]{'loss': '12.12', 'grad_norm': '0.04322', 'learning_rate': '0.0001588', 'ppl': '1.844e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.2', 'tokens/total': 2293760, 'tokens/trainable': 2293760, 'epoch': '0.35'}
+ 40%|████      | 8/20 [20:48<31:12, 156.07s/it]                                               {'loss': '12.12', 'grad_norm': '0.04414', 'learning_rate': '0.0001454', 'ppl': '1.844e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.3', 'tokens/total': 2621440, 'tokens/trainable': 2621440, 'epoch': '0.4'}
+ 40%|████      | 8/20 [20:48<31:12, 156.07s/it] 45%|████▌     | 9/20 [23:24<28:37, 156.12s/it]                                                45%|████▌     | 9/20 [23:24<28:37, 156.12s/it]{'loss': '12.07', 'grad_norm': '0.03009', 'learning_rate': '0.0001309', 'ppl': '1.739e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.1', 'tokens/total': 2949120, 'tokens/trainable': 2949120, 'epoch': '0.45'}
+ 50%|█████     | 10/20 [26:01<26:01, 156.16s/it]                                                 50%|█████     | 10/20 [26:01<26:01, 156.16s/it]{'loss': '12.06', 'grad_norm': '0.02657', 'learning_rate': '0.0001156', 'ppl': '1.733e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.1', 'tokens/total': 3276800, 'tokens/trainable': 3276800, 'epoch': '0.5'}
+ 55%|█████▌    | 11/20 [28:36<23:24, 156.07s/it]                                                 55%|█████▌    | 11/20 [28:36<23:24, 156.07s/it]{'loss': '12.06', 'grad_norm': '0.0519', 'learning_rate': '0.0001', 'ppl': '1.733e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.4', 'tokens/total': 3604480, 'tokens/trainable': 3604480, 'epoch': '0.55'}
+ 60%|██████    | 12/20 [31:13<20:48, 156.09s/it]                                                 60%|██████    | 12/20 [31:13<20:48, 156.09s/it]{'loss': '12.06', 'grad_norm': '0.04504', 'learning_rate': '8.436e-05', 'ppl': '1.733e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.2', 'tokens/total': 3932160, 'tokens/trainable': 3932160, 'epoch': '0.6'}
+ 65%|██████▌   | 13/20 [33:49<18:12, 156.11s/it]{'loss': '12.05', 'grad_norm': '0.02824', 'learning_rate': '6.91e-05', 'ppl': '1.719e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.1', 'tokens/total': 4259840, 'tokens/trainable': 4259840, 'epoch': '0.65'}
+                                                 65%|██████▌   | 13/20 [33:49<18:12, 156.11s/it] 70%|███████   | 14/20 [36:25<15:36, 156.12s/it]                                                 70%|███████   | 14/20 [36:25<15:36, 156.12s/it]{'loss': '12.04', 'grad_norm': '0.01694', 'learning_rate': '5.46e-05', 'ppl': '1.699e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.2', 'tokens/total': 4587520, 'tokens/trainable': 4587520, 'epoch': '0.7'}
+ 75%|███████▌  | 15/20 [39:00<12:59, 155.98s/it]                                                 75%|███████▌  | 15/20 [39:00<12:59, 155.98s/it]{'loss': '12.02', 'grad_norm': '0.01598', 'learning_rate': '4.122e-05', 'ppl': '1.666e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.6', 'tokens/total': 4915200, 'tokens/trainable': 4915200, 'epoch': '0.75'}
+ 80%|████████  | 16/20 [41:37<10:24, 156.07s/it]                                                 80%|████████  | 16/20 [41:37<10:24, 156.07s/it]{'loss': '12', 'grad_norm': '0.01863', 'learning_rate': '2.929e-05', 'ppl': '1.634e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.1', 'tokens/total': 5242880, 'tokens/trainable': 5242880, 'epoch': '0.8'}
+ 85%|████████▌ | 17/20 [44:13<07:48, 156.17s/it]                                                 85%|████████▌ | 17/20 [44:13<07:48, 156.17s/it]{'loss': '12', 'grad_norm': '0.02002', 'learning_rate': '1.91e-05', 'ppl': '1.628e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '130.9', 'tokens/total': 5570560, 'tokens/trainable': 5570560, 'epoch': '0.85'}
+ 90%|█████████ | 18/20 [46:49<05:12, 156.07s/it]                                                 90%|█████████ | 18/20 [46:49<05:12, 156.07s/it]{'loss': '12', 'grad_norm': '0.02008', 'learning_rate': '1.09e-05', 'ppl': '1.628e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.4', 'tokens/total': 5898240, 'tokens/trainable': 5898240, 'epoch': '0.9'}
+ 95%|█████████▌| 19/20 [49:25<02:36, 156.06s/it]                                                 95%|█████████▌| 19/20 [49:25<02:36, 156.06s/it]{'loss': '12', 'grad_norm': '0.02074', 'learning_rate': '4.894e-06', 'ppl': '1.628e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131.2', 'tokens/total': 6225920, 'tokens/trainable': 6225920, 'epoch': '0.95'}
+100%|██████████| 20/20 [52:01<00:00, 156.17s/it]                                                100%|██████████| 20/20 [52:01<00:00, 156.17s/it]{'loss': '12', 'grad_norm': '0.02115', 'learning_rate': '1.231e-06', 'ppl': '1.628e+05', 'memory/max_active (GiB)': '45.71', 'memory/max_allocated (GiB)': '45.71', 'memory/device_reserved (GiB)': '46.37', 'tokens/train_per_sec_per_gpu': '131', 'tokens/total': 6553600, 'tokens/trainable': 6553600, 'epoch': '1'}
+[2026-04-21 13:34:27,418] [WARNING] [py.warnings] /axo-venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+
+[2026-04-21 13:34:30,910] [INFO] [axolotl.core.trainers.base] Saving model checkpoint to /workspace/final-result/fsdp48/20260421-124200/checkpoint-20
+                                                100%|██████████| 20/20 [52:09<00:00, 156.17s/it]{'train_runtime': '3129', 'train_samples_per_second': '0.102', 'train_steps_per_second': '0.006', 'train_loss': '12.22', 'memory/max_active (GiB)': '4.64', 'memory/max_allocated (GiB)': '4.64', 'memory/device_reserved (GiB)': '46.37', 'epoch': '1', 'tokens/train_per_sec_per_gpu': '0'}
+100%|██████████| 20/20 [52:09<00:00, 156.45s/it]
+[2026-04-21 13:34:34,644] [INFO] [axolotl.train] Training completed! Saving trained model to /workspace/final-result/fsdp48/20260421-124200.
+[2026-04-21 13:34:35,204] [WARNING] [py.warnings] /axo-venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+
+[2026-04-21 13:34:37,853] [INFO] [axolotl.core.trainers.base] Saving model checkpoint to /workspace/final-result/fsdp48/20260421-124200
+[2026-04-21 13:34:38,627] [INFO] [axolotl.train] Model successfully saved to /workspace/final-result/fsdp48/20260421-124200
+
+[완료] 결과물 위치: /workspace/final-result/fsdp48/20260421-124200
+
+==================================================
+  [완료] 결과물 저장 위치: /home/ubuntu/automated_benchmark/output/fsdp48/20260421-124200
+==================================================
